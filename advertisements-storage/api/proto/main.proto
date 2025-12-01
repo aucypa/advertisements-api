@@ -11,7 +11,25 @@ service AdvertisementsStorage {
     rpc GetAllAdvertisements (GetAllAdvertisementsRequest) returns (GetAllAdvertisementsResponse);
     rpc UpdateAdvertisementById (UpdateAdvertisementByIdRequest) returns (UpdateAdvertisementByIdResponse);
     rpc DeleteAdvertisementByID (DeleteAdvertisementByIDRequest) returns (DeleteAdvertisementByIDResponse);
+
+    // Categories
+    rpc CreateCategory(CreateCategoryRequest) returns (CreateCategoryResponse);
+    rpc GetCategoryById(GetCategoryByIdRequest) returns (GetCategoryByIdResposne);
+    rpc GetCategoryByAlias(GetCategoryByAliasRequest) returns (GetCategoryByAliasResposne);
+    rpc GetAllCategories(GetAllCategoriesRequest) returns (GetAllCategoriesResponse);
+    rpc UpdateCategoryById(UpdateCategoryByIdRequest) returns(UpdateCategoryByIdResponse);
+    rpc DeleteCategoryById(DeleteCategoryByIDRequest) returns(DeleteCategoryByIDResponse);
+
+    // Users
+    rpc RegisterUser(RegisterUserRequest) returns (RegisterUserResponse);
+    rpc LoginUser(LoginUserRequest) returns (LoginUserResponse);
+    rpc GetAllUsers(GetAllUsersRequest) returns (GetAllUsersResponse);
+    rpc GetUserByID(GetUserByIDRequest) returns (GetUserByIdResponse);
+    rpc UpdateUserById (UpdateUserByIdRequst) returns (UpdateUserByIdResponse);
+    rpc DeleteUserById (DeleteUserByIdRequest) returns (DeleteAdvertisementByIDResponse);
 };
+
+// === Ads ===
 
 message Advertisement {
     int64 id = 1;
@@ -22,40 +40,164 @@ message Advertisement {
     google.protobuf.Timestamp published_at = 6;
     int64 category_id = 7;
     int64 user_id = 8;
-};
+}
 
 message CreateAdvertisementRequest {
-    Advertisement advertisement = 1;
-};
+    string title = 1;
+    string description = 2;
+    double price = 3;
+    string currency = 4;
+    google.protobuf.Timestamp published_at = 5;
+    int64 category_id = 6;
+    int64 user_id = 7;
+}
 
 message CreateAdvertisementResponse {
     Advertisement advertisement = 1;
-};
+}
 
 message GetAdvertisementByIdRequest{
     int64 id = 1;
-};
+}
 
 message GetAdvertisementByIdResposne{
     Advertisement advertisement = 1;
-};
+}
 
 message GetAllAdvertisementsRequest{};
 
 message GetAllAdvertisementsResponse{
-    repeated Advertisement advertisement = 1;
-};
+    repeated Advertisement advertisements = 1;
+}
 
 message UpdateAdvertisementByIdRequest{
     int64 id = 1;
-};
+}
 
 message UpdateAdvertisementByIdResponse{
     Advertisement advertisement = 1;
-};
+}
 
 message DeleteAdvertisementByIDRequest{
     int64 id = 1;
-};
+}
 
 message DeleteAdvertisementByIDResponse{};
+
+// === Category ===
+
+message Category{
+    int64 id = 1;
+    string name = 2;
+    string alias = 3;
+}
+
+message CreateCategoryRequest {
+    string name = 1;
+    string alias = 2;
+}
+
+message CreateCategoryResponse {
+    Category category = 1;
+}
+
+message GetCategoryByIdRequest{
+    int64 id = 1;
+}
+
+message GetCategoryByIdResposne{
+    Category category = 1;
+}
+
+message GetCategoryByAliasRequest{
+    string alias = 1;
+}
+
+message GetCategoryByAliasResposne{
+    Category category = 1;
+}
+
+message GetAllCategoriesRequest{};
+
+message GetAllCategoriesResponse{
+    repeated Category categories = 1;
+}
+
+message UpdateCategoryByIdRequest{
+    int64 id = 1;
+}
+
+message UpdateCategoryByIdResponse{
+    Category category = 1;
+}
+
+message DeleteCategoryByIDRequest{
+    int64 id = 1;
+}
+
+message DeleteCategoryByIDResponse{};
+
+// === Users ===
+
+enum UserRole {
+    USER_ROLE_USER = 0;
+    USER_ROLE_ADMIN = 1;
+}
+
+message User {
+    int64 id = 1;
+    string email = 2;
+    string password_hash = 3;
+    string first_name = 4;
+    string last_name = 5;
+    optional UserRole role = 6;
+}
+
+message RegisterUserRequest {
+    string email = 1;
+    string password = 2;
+    string first_name = 4;
+    string last_name = 5;
+    optional UserRole role = 6;
+}
+
+message RegisterUserResponse {
+    User user = 1;
+}
+
+message LoginUserRequest{
+    string email = 1;
+    string password = 2;
+}
+
+message LoginUserResponse {
+    string access_token = 1;
+}
+
+message GetAllUsersRequest{}
+
+message GetAllUsersResponse{
+    repeated User users = 1;
+}
+
+message GetUserByIDRequest{
+    int64 id = 1;
+}
+
+message GetUserByIdResponse {
+    User user = 1;
+}
+
+message UpdateUserByIdRequst{
+    int64 id = 1;
+}
+
+message UpdateUserByIdResponse{
+    User user = 1;
+}
+
+message DeleteUserByIdRequest{
+     int64 id = 1;
+}
+
+message DeleteUserByIdResponse{}
