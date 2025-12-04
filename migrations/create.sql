@@ -1,12 +1,10 @@
-CREATE TYPE user_role AS ENUM ('user', 'admin');
-
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     email VARCHAR(255) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
-    role user_role NOT NULL DEFAULT 'user',
+    role INTEGER NOT NULL DEFAULT 0,
     created_at TIMESTAMPTZ DEFAULT NOW(),
     updated_at  TIMESTAMPTZ DEFAULT NOW()
 );
@@ -28,8 +26,8 @@ CREATE TABLE IF NOT EXISTS advertisements (
     created_at TIMESTAMPTZ DEFAULT NOW(),
     updated_at  TIMESTAMPTZ DEFAULT NOW(),
     published_at TIMESTAMPTZ NOT NULL,
-    category_id BIGINT NOT NULL REFERENCES categories(id),
-    user_id BIGINT NOT NULL REFERENCES users(id)
+    category_id BIGINT NOT NULL REFERENCES categories(id) ON DELETE CASCADE,
+    user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE
 );
 
 CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);

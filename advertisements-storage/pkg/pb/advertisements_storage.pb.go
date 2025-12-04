@@ -7,13 +7,12 @@
 package avdertisement_storage
 
 import (
-	reflect "reflect"
-	sync "sync"
-	unsafe "unsafe"
-
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
+	reflect "reflect"
+	sync "sync"
+	unsafe "unsafe"
 )
 
 const (
@@ -646,6 +645,8 @@ type Category struct {
 	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	Alias         string                 `protobuf:"bytes,3,opt,name=alias,proto3" json:"alias,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -699,6 +700,20 @@ func (x *Category) GetAlias() string {
 		return x.Alias
 	}
 	return ""
+}
+
+func (x *Category) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *Category) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
 }
 
 type CreateCategoryRequest struct {
@@ -755,7 +770,7 @@ func (x *CreateCategoryRequest) GetAlias() string {
 
 type CreateCategoryResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Category      *Category              `protobuf:"bytes,1,opt,name=category,proto3" json:"category,omitempty"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -790,11 +805,11 @@ func (*CreateCategoryResponse) Descriptor() ([]byte, []int) {
 	return file_advertisements_storage_proto_rawDescGZIP(), []int{13}
 }
 
-func (x *CreateCategoryResponse) GetCategory() *Category {
+func (x *CreateCategoryResponse) GetId() int64 {
 	if x != nil {
-		return x.Category
+		return x.Id
 	}
-	return nil
+	return 0
 }
 
 type GetCategoryByIdRequest struct {
@@ -1056,6 +1071,8 @@ func (x *GetAllCategoriesResponse) GetCategories() []*Category {
 type UpdateCategoryByIdRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Alias         string                 `protobuf:"bytes,3,opt,name=alias,proto3" json:"alias,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1095,6 +1112,20 @@ func (x *UpdateCategoryByIdRequest) GetId() int64 {
 		return x.Id
 	}
 	return 0
+}
+
+func (x *UpdateCategoryByIdRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *UpdateCategoryByIdRequest) GetAlias() string {
+	if x != nil {
+		return x.Alias
+	}
+	return ""
 }
 
 type UpdateCategoryByIdResponse struct {
@@ -1229,6 +1260,8 @@ type User struct {
 	FirstName     string                 `protobuf:"bytes,4,opt,name=first_name,json=firstName,proto3" json:"first_name,omitempty"`
 	LastName      string                 `protobuf:"bytes,5,opt,name=last_name,json=lastName,proto3" json:"last_name,omitempty"`
 	Role          *UserRole              `protobuf:"varint,6,opt,name=role,proto3,enum=advertisements_storage.UserRole,oneof" json:"role,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1303,6 +1336,20 @@ func (x *User) GetRole() UserRole {
 		return *x.Role
 	}
 	return UserRole_USER_ROLE_USER
+}
+
+func (x *User) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *User) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
 }
 
 type RegisterUserRequest struct {
@@ -1383,7 +1430,7 @@ func (x *RegisterUserRequest) GetRole() UserRole {
 
 type RegisterUserResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	User          *User                  `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1418,11 +1465,11 @@ func (*RegisterUserResponse) Descriptor() ([]byte, []int) {
 	return file_advertisements_storage_proto_rawDescGZIP(), []int{26}
 }
 
-func (x *RegisterUserResponse) GetUser() *User {
+func (x *RegisterUserResponse) GetId() int64 {
 	if x != nil {
-		return x.User
+		return x.Id
 	}
-	return nil
+	return 0
 }
 
 type LoginUserRequest struct {
@@ -1601,6 +1648,94 @@ func (x *GetAllUsersResponse) GetUsers() []*User {
 	return nil
 }
 
+type GetUserByEmailRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Email         string                 `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserByEmailRequest) Reset() {
+	*x = GetUserByEmailRequest{}
+	mi := &file_advertisements_storage_proto_msgTypes[31]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserByEmailRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserByEmailRequest) ProtoMessage() {}
+
+func (x *GetUserByEmailRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_advertisements_storage_proto_msgTypes[31]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserByEmailRequest.ProtoReflect.Descriptor instead.
+func (*GetUserByEmailRequest) Descriptor() ([]byte, []int) {
+	return file_advertisements_storage_proto_rawDescGZIP(), []int{31}
+}
+
+func (x *GetUserByEmailRequest) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+type GetUserByEmailResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	User          *User                  `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserByEmailResponse) Reset() {
+	*x = GetUserByEmailResponse{}
+	mi := &file_advertisements_storage_proto_msgTypes[32]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserByEmailResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserByEmailResponse) ProtoMessage() {}
+
+func (x *GetUserByEmailResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_advertisements_storage_proto_msgTypes[32]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserByEmailResponse.ProtoReflect.Descriptor instead.
+func (*GetUserByEmailResponse) Descriptor() ([]byte, []int) {
+	return file_advertisements_storage_proto_rawDescGZIP(), []int{32}
+}
+
+func (x *GetUserByEmailResponse) GetUser() *User {
+	if x != nil {
+		return x.User
+	}
+	return nil
+}
+
 type GetUserByIDRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -1610,7 +1745,7 @@ type GetUserByIDRequest struct {
 
 func (x *GetUserByIDRequest) Reset() {
 	*x = GetUserByIDRequest{}
-	mi := &file_advertisements_storage_proto_msgTypes[31]
+	mi := &file_advertisements_storage_proto_msgTypes[33]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1622,7 +1757,7 @@ func (x *GetUserByIDRequest) String() string {
 func (*GetUserByIDRequest) ProtoMessage() {}
 
 func (x *GetUserByIDRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_advertisements_storage_proto_msgTypes[31]
+	mi := &file_advertisements_storage_proto_msgTypes[33]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1635,7 +1770,7 @@ func (x *GetUserByIDRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserByIDRequest.ProtoReflect.Descriptor instead.
 func (*GetUserByIDRequest) Descriptor() ([]byte, []int) {
-	return file_advertisements_storage_proto_rawDescGZIP(), []int{31}
+	return file_advertisements_storage_proto_rawDescGZIP(), []int{33}
 }
 
 func (x *GetUserByIDRequest) GetId() int64 {
@@ -1654,7 +1789,7 @@ type GetUserByIdResponse struct {
 
 func (x *GetUserByIdResponse) Reset() {
 	*x = GetUserByIdResponse{}
-	mi := &file_advertisements_storage_proto_msgTypes[32]
+	mi := &file_advertisements_storage_proto_msgTypes[34]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1666,7 +1801,7 @@ func (x *GetUserByIdResponse) String() string {
 func (*GetUserByIdResponse) ProtoMessage() {}
 
 func (x *GetUserByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_advertisements_storage_proto_msgTypes[32]
+	mi := &file_advertisements_storage_proto_msgTypes[34]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1679,7 +1814,7 @@ func (x *GetUserByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserByIdResponse.ProtoReflect.Descriptor instead.
 func (*GetUserByIdResponse) Descriptor() ([]byte, []int) {
-	return file_advertisements_storage_proto_rawDescGZIP(), []int{32}
+	return file_advertisements_storage_proto_rawDescGZIP(), []int{34}
 }
 
 func (x *GetUserByIdResponse) GetUser() *User {
@@ -1692,13 +1827,18 @@ func (x *GetUserByIdResponse) GetUser() *User {
 type UpdateUserByIdRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Email         string                 `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
+	PasswordHash  string                 `protobuf:"bytes,3,opt,name=password_hash,json=passwordHash,proto3" json:"password_hash,omitempty"`
+	FirstName     string                 `protobuf:"bytes,4,opt,name=first_name,json=firstName,proto3" json:"first_name,omitempty"`
+	LastName      string                 `protobuf:"bytes,5,opt,name=last_name,json=lastName,proto3" json:"last_name,omitempty"`
+	Role          *UserRole              `protobuf:"varint,6,opt,name=role,proto3,enum=advertisements_storage.UserRole,oneof" json:"role,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *UpdateUserByIdRequest) Reset() {
 	*x = UpdateUserByIdRequest{}
-	mi := &file_advertisements_storage_proto_msgTypes[33]
+	mi := &file_advertisements_storage_proto_msgTypes[35]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1710,7 +1850,7 @@ func (x *UpdateUserByIdRequest) String() string {
 func (*UpdateUserByIdRequest) ProtoMessage() {}
 
 func (x *UpdateUserByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_advertisements_storage_proto_msgTypes[33]
+	mi := &file_advertisements_storage_proto_msgTypes[35]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1723,7 +1863,7 @@ func (x *UpdateUserByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateUserByIdRequest.ProtoReflect.Descriptor instead.
 func (*UpdateUserByIdRequest) Descriptor() ([]byte, []int) {
-	return file_advertisements_storage_proto_rawDescGZIP(), []int{33}
+	return file_advertisements_storage_proto_rawDescGZIP(), []int{35}
 }
 
 func (x *UpdateUserByIdRequest) GetId() int64 {
@@ -1731,6 +1871,41 @@ func (x *UpdateUserByIdRequest) GetId() int64 {
 		return x.Id
 	}
 	return 0
+}
+
+func (x *UpdateUserByIdRequest) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *UpdateUserByIdRequest) GetPasswordHash() string {
+	if x != nil {
+		return x.PasswordHash
+	}
+	return ""
+}
+
+func (x *UpdateUserByIdRequest) GetFirstName() string {
+	if x != nil {
+		return x.FirstName
+	}
+	return ""
+}
+
+func (x *UpdateUserByIdRequest) GetLastName() string {
+	if x != nil {
+		return x.LastName
+	}
+	return ""
+}
+
+func (x *UpdateUserByIdRequest) GetRole() UserRole {
+	if x != nil && x.Role != nil {
+		return *x.Role
+	}
+	return UserRole_USER_ROLE_USER
 }
 
 type UpdateUserByIdResponse struct {
@@ -1742,7 +1917,7 @@ type UpdateUserByIdResponse struct {
 
 func (x *UpdateUserByIdResponse) Reset() {
 	*x = UpdateUserByIdResponse{}
-	mi := &file_advertisements_storage_proto_msgTypes[34]
+	mi := &file_advertisements_storage_proto_msgTypes[36]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1754,7 +1929,7 @@ func (x *UpdateUserByIdResponse) String() string {
 func (*UpdateUserByIdResponse) ProtoMessage() {}
 
 func (x *UpdateUserByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_advertisements_storage_proto_msgTypes[34]
+	mi := &file_advertisements_storage_proto_msgTypes[36]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1767,7 +1942,7 @@ func (x *UpdateUserByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateUserByIdResponse.ProtoReflect.Descriptor instead.
 func (*UpdateUserByIdResponse) Descriptor() ([]byte, []int) {
-	return file_advertisements_storage_proto_rawDescGZIP(), []int{34}
+	return file_advertisements_storage_proto_rawDescGZIP(), []int{36}
 }
 
 func (x *UpdateUserByIdResponse) GetUser() *User {
@@ -1786,7 +1961,7 @@ type DeleteUserByIdRequest struct {
 
 func (x *DeleteUserByIdRequest) Reset() {
 	*x = DeleteUserByIdRequest{}
-	mi := &file_advertisements_storage_proto_msgTypes[35]
+	mi := &file_advertisements_storage_proto_msgTypes[37]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1798,7 +1973,7 @@ func (x *DeleteUserByIdRequest) String() string {
 func (*DeleteUserByIdRequest) ProtoMessage() {}
 
 func (x *DeleteUserByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_advertisements_storage_proto_msgTypes[35]
+	mi := &file_advertisements_storage_proto_msgTypes[37]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1811,7 +1986,7 @@ func (x *DeleteUserByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteUserByIdRequest.ProtoReflect.Descriptor instead.
 func (*DeleteUserByIdRequest) Descriptor() ([]byte, []int) {
-	return file_advertisements_storage_proto_rawDescGZIP(), []int{35}
+	return file_advertisements_storage_proto_rawDescGZIP(), []int{37}
 }
 
 func (x *DeleteUserByIdRequest) GetId() int64 {
@@ -1829,7 +2004,7 @@ type DeleteUserByIdResponse struct {
 
 func (x *DeleteUserByIdResponse) Reset() {
 	*x = DeleteUserByIdResponse{}
-	mi := &file_advertisements_storage_proto_msgTypes[36]
+	mi := &file_advertisements_storage_proto_msgTypes[38]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1841,7 +2016,7 @@ func (x *DeleteUserByIdResponse) String() string {
 func (*DeleteUserByIdResponse) ProtoMessage() {}
 
 func (x *DeleteUserByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_advertisements_storage_proto_msgTypes[36]
+	mi := &file_advertisements_storage_proto_msgTypes[38]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1854,7 +2029,7 @@ func (x *DeleteUserByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteUserByIdResponse.ProtoReflect.Descriptor instead.
 func (*DeleteUserByIdResponse) Descriptor() ([]byte, []int) {
-	return file_advertisements_storage_proto_rawDescGZIP(), []int{36}
+	return file_advertisements_storage_proto_rawDescGZIP(), []int{38}
 }
 
 type SearchAdvertisementByTitleRequest struct {
@@ -1866,7 +2041,7 @@ type SearchAdvertisementByTitleRequest struct {
 
 func (x *SearchAdvertisementByTitleRequest) Reset() {
 	*x = SearchAdvertisementByTitleRequest{}
-	mi := &file_advertisements_storage_proto_msgTypes[37]
+	mi := &file_advertisements_storage_proto_msgTypes[39]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1878,7 +2053,7 @@ func (x *SearchAdvertisementByTitleRequest) String() string {
 func (*SearchAdvertisementByTitleRequest) ProtoMessage() {}
 
 func (x *SearchAdvertisementByTitleRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_advertisements_storage_proto_msgTypes[37]
+	mi := &file_advertisements_storage_proto_msgTypes[39]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1891,7 +2066,7 @@ func (x *SearchAdvertisementByTitleRequest) ProtoReflect() protoreflect.Message 
 
 // Deprecated: Use SearchAdvertisementByTitleRequest.ProtoReflect.Descriptor instead.
 func (*SearchAdvertisementByTitleRequest) Descriptor() ([]byte, []int) {
-	return file_advertisements_storage_proto_rawDescGZIP(), []int{37}
+	return file_advertisements_storage_proto_rawDescGZIP(), []int{39}
 }
 
 func (x *SearchAdvertisementByTitleRequest) GetTitle() string {
@@ -1910,7 +2085,7 @@ type SearchAdvertisementByTitleResponse struct {
 
 func (x *SearchAdvertisementByTitleResponse) Reset() {
 	*x = SearchAdvertisementByTitleResponse{}
-	mi := &file_advertisements_storage_proto_msgTypes[38]
+	mi := &file_advertisements_storage_proto_msgTypes[40]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1922,7 +2097,7 @@ func (x *SearchAdvertisementByTitleResponse) String() string {
 func (*SearchAdvertisementByTitleResponse) ProtoMessage() {}
 
 func (x *SearchAdvertisementByTitleResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_advertisements_storage_proto_msgTypes[38]
+	mi := &file_advertisements_storage_proto_msgTypes[40]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1935,7 +2110,7 @@ func (x *SearchAdvertisementByTitleResponse) ProtoReflect() protoreflect.Message
 
 // Deprecated: Use SearchAdvertisementByTitleResponse.ProtoReflect.Descriptor instead.
 func (*SearchAdvertisementByTitleResponse) Descriptor() ([]byte, []int) {
-	return file_advertisements_storage_proto_rawDescGZIP(), []int{38}
+	return file_advertisements_storage_proto_rawDescGZIP(), []int{40}
 }
 
 func (x *SearchAdvertisementByTitleResponse) GetAdvertisement() []*Advertisement {
@@ -1984,16 +2159,20 @@ const file_advertisements_storage_proto_rawDesc = "" +
 	"\radvertisement\x18\x01 \x01(\v2%.advertisements_storage.AdvertisementR\radvertisement\"0\n" +
 	"\x1eDeleteAdvertisementByIDRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"!\n" +
-	"\x1fDeleteAdvertisementByIDResponse\"D\n" +
+	"\x1fDeleteAdvertisementByIDResponse\"\xba\x01\n" +
 	"\bCategory\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x14\n" +
-	"\x05alias\x18\x03 \x01(\tR\x05alias\"A\n" +
+	"\x05alias\x18\x03 \x01(\tR\x05alias\x129\n" +
+	"\n" +
+	"created_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"A\n" +
 	"\x15CreateCategoryRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x14\n" +
-	"\x05alias\x18\x02 \x01(\tR\x05alias\"V\n" +
-	"\x16CreateCategoryResponse\x12<\n" +
-	"\bcategory\x18\x01 \x01(\v2 .advertisements_storage.CategoryR\bcategory\"(\n" +
+	"\x05alias\x18\x02 \x01(\tR\x05alias\"(\n" +
+	"\x16CreateCategoryResponse\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"(\n" +
 	"\x16GetCategoryByIdRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"W\n" +
 	"\x17GetCategoryByIdResponse\x12<\n" +
@@ -2006,14 +2185,16 @@ const file_advertisements_storage_proto_rawDesc = "" +
 	"\x18GetAllCategoriesResponse\x12@\n" +
 	"\n" +
 	"categories\x18\x01 \x03(\v2 .advertisements_storage.CategoryR\n" +
-	"categories\"+\n" +
+	"categories\"U\n" +
 	"\x19UpdateCategoryByIdRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\"Z\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x14\n" +
+	"\x05alias\x18\x03 \x01(\tR\x05alias\"Z\n" +
 	"\x1aUpdateCategoryByIdResponse\x12<\n" +
 	"\bcategory\x18\x01 \x01(\v2 .advertisements_storage.CategoryR\bcategory\"+\n" +
 	"\x19DeleteCategoryByIDRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"\x1c\n" +
-	"\x1aDeleteCategoryByIDResponse\"\xd1\x01\n" +
+	"\x1aDeleteCategoryByIDResponse\"\xc7\x02\n" +
 	"\x04User\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x14\n" +
 	"\x05email\x18\x02 \x01(\tR\x05email\x12#\n" +
@@ -2021,7 +2202,11 @@ const file_advertisements_storage_proto_rawDesc = "" +
 	"\n" +
 	"first_name\x18\x04 \x01(\tR\tfirstName\x12\x1b\n" +
 	"\tlast_name\x18\x05 \x01(\tR\blastName\x129\n" +
-	"\x04role\x18\x06 \x01(\x0e2 .advertisements_storage.UserRoleH\x00R\x04role\x88\x01\x01B\a\n" +
+	"\x04role\x18\x06 \x01(\x0e2 .advertisements_storage.UserRoleH\x00R\x04role\x88\x01\x01\x129\n" +
+	"\n" +
+	"created_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAtB\a\n" +
 	"\x05_role\"\xc7\x01\n" +
 	"\x13RegisterUserRequest\x12\x14\n" +
 	"\x05email\x18\x01 \x01(\tR\x05email\x12\x1a\n" +
@@ -2030,9 +2215,9 @@ const file_advertisements_storage_proto_rawDesc = "" +
 	"first_name\x18\x04 \x01(\tR\tfirstName\x12\x1b\n" +
 	"\tlast_name\x18\x05 \x01(\tR\blastName\x129\n" +
 	"\x04role\x18\x06 \x01(\x0e2 .advertisements_storage.UserRoleH\x00R\x04role\x88\x01\x01B\a\n" +
-	"\x05_role\"H\n" +
-	"\x14RegisterUserResponse\x120\n" +
-	"\x04user\x18\x01 \x01(\v2\x1c.advertisements_storage.UserR\x04user\"D\n" +
+	"\x05_role\"&\n" +
+	"\x14RegisterUserResponse\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"D\n" +
 	"\x10LoginUserRequest\x12\x14\n" +
 	"\x05email\x18\x01 \x01(\tR\x05email\x12\x1a\n" +
 	"\bpassword\x18\x02 \x01(\tR\bpassword\"6\n" +
@@ -2040,13 +2225,24 @@ const file_advertisements_storage_proto_rawDesc = "" +
 	"\faccess_token\x18\x01 \x01(\tR\vaccessToken\"\x14\n" +
 	"\x12GetAllUsersRequest\"I\n" +
 	"\x13GetAllUsersResponse\x122\n" +
-	"\x05users\x18\x01 \x03(\v2\x1c.advertisements_storage.UserR\x05users\"$\n" +
+	"\x05users\x18\x01 \x03(\v2\x1c.advertisements_storage.UserR\x05users\"-\n" +
+	"\x15GetUserByEmailRequest\x12\x14\n" +
+	"\x05email\x18\x01 \x01(\tR\x05email\"J\n" +
+	"\x16GetUserByEmailResponse\x120\n" +
+	"\x04user\x18\x01 \x01(\v2\x1c.advertisements_storage.UserR\x04user\"$\n" +
 	"\x12GetUserByIDRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"G\n" +
 	"\x13GetUserByIdResponse\x120\n" +
-	"\x04user\x18\x01 \x01(\v2\x1c.advertisements_storage.UserR\x04user\"'\n" +
+	"\x04user\x18\x01 \x01(\v2\x1c.advertisements_storage.UserR\x04user\"\xe2\x01\n" +
 	"\x15UpdateUserByIdRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\"J\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x14\n" +
+	"\x05email\x18\x02 \x01(\tR\x05email\x12#\n" +
+	"\rpassword_hash\x18\x03 \x01(\tR\fpasswordHash\x12\x1d\n" +
+	"\n" +
+	"first_name\x18\x04 \x01(\tR\tfirstName\x12\x1b\n" +
+	"\tlast_name\x18\x05 \x01(\tR\blastName\x129\n" +
+	"\x04role\x18\x06 \x01(\x0e2 .advertisements_storage.UserRoleH\x00R\x04role\x88\x01\x01B\a\n" +
+	"\x05_role\"J\n" +
 	"\x16UpdateUserByIdResponse\x120\n" +
 	"\x04user\x18\x01 \x01(\v2\x1c.advertisements_storage.UserR\x04user\"'\n" +
 	"\x15DeleteUserByIdRequest\x12\x0e\n" +
@@ -2058,7 +2254,7 @@ const file_advertisements_storage_proto_rawDesc = "" +
 	"\radvertisement\x18\x01 \x03(\v2%.advertisements_storage.AdvertisementR\radvertisement*3\n" +
 	"\bUserRole\x12\x12\n" +
 	"\x0eUSER_ROLE_USER\x10\x00\x12\x13\n" +
-	"\x0fUSER_ROLE_ADMIN\x10\x012\xaa\x11\n" +
+	"\x0fUSER_ROLE_ADMIN\x10\x012\x9b\x12\n" +
 	"\x15AdvertisementsStorage\x12~\n" +
 	"\x13CreateAdvertisement\x122.advertisements_storage.CreateAdvertisementRequest\x1a3.advertisements_storage.CreateAdvertisementResponse\x12\x81\x01\n" +
 	"\x14GetAdvertisementById\x123.advertisements_storage.GetAdvertisementByIdRequest\x1a4.advertisements_storage.GetAdvertisementByIdResponse\x12\x81\x01\n" +
@@ -2075,6 +2271,7 @@ const file_advertisements_storage_proto_rawDesc = "" +
 	"\tLoginUser\x12(.advertisements_storage.LoginUserRequest\x1a).advertisements_storage.LoginUserResponse\x12f\n" +
 	"\vGetAllUsers\x12*.advertisements_storage.GetAllUsersRequest\x1a+.advertisements_storage.GetAllUsersResponse\x12f\n" +
 	"\vGetUserByID\x12*.advertisements_storage.GetUserByIDRequest\x1a+.advertisements_storage.GetUserByIdResponse\x12o\n" +
+	"\x0eGetUserByEmail\x12-.advertisements_storage.GetUserByEmailRequest\x1a..advertisements_storage.GetUserByEmailResponse\x12o\n" +
 	"\x0eUpdateUserById\x12-.advertisements_storage.UpdateUserByIdRequest\x1a..advertisements_storage.UpdateUserByIdResponse\x12x\n" +
 	"\x0eDeleteUserById\x12-.advertisements_storage.DeleteUserByIdRequest\x1a7.advertisements_storage.DeleteAdvertisementByIDResponse\x12\x93\x01\n" +
 	"\x1aSearchAdvertisementByTitle\x129.advertisements_storage.SearchAdvertisementByTitleRequest\x1a:.advertisements_storage.SearchAdvertisementByTitleResponseB Z\x1e./pkg/pb;avdertisement_storageb\x06proto3"
@@ -2092,7 +2289,7 @@ func file_advertisements_storage_proto_rawDescGZIP() []byte {
 }
 
 var file_advertisements_storage_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_advertisements_storage_proto_msgTypes = make([]protoimpl.MessageInfo, 39)
+var file_advertisements_storage_proto_msgTypes = make([]protoimpl.MessageInfo, 41)
 var file_advertisements_storage_proto_goTypes = []any{
 	(UserRole)(0),                              // 0: advertisements_storage.UserRole
 	(*Advertisement)(nil),                      // 1: advertisements_storage.Advertisement
@@ -2126,76 +2323,84 @@ var file_advertisements_storage_proto_goTypes = []any{
 	(*LoginUserResponse)(nil),                  // 29: advertisements_storage.LoginUserResponse
 	(*GetAllUsersRequest)(nil),                 // 30: advertisements_storage.GetAllUsersRequest
 	(*GetAllUsersResponse)(nil),                // 31: advertisements_storage.GetAllUsersResponse
-	(*GetUserByIDRequest)(nil),                 // 32: advertisements_storage.GetUserByIDRequest
-	(*GetUserByIdResponse)(nil),                // 33: advertisements_storage.GetUserByIdResponse
-	(*UpdateUserByIdRequest)(nil),              // 34: advertisements_storage.UpdateUserByIdRequest
-	(*UpdateUserByIdResponse)(nil),             // 35: advertisements_storage.UpdateUserByIdResponse
-	(*DeleteUserByIdRequest)(nil),              // 36: advertisements_storage.DeleteUserByIdRequest
-	(*DeleteUserByIdResponse)(nil),             // 37: advertisements_storage.DeleteUserByIdResponse
-	(*SearchAdvertisementByTitleRequest)(nil),  // 38: advertisements_storage.SearchAdvertisementByTitleRequest
-	(*SearchAdvertisementByTitleResponse)(nil), // 39: advertisements_storage.SearchAdvertisementByTitleResponse
-	(*timestamppb.Timestamp)(nil),              // 40: google.protobuf.Timestamp
+	(*GetUserByEmailRequest)(nil),              // 32: advertisements_storage.GetUserByEmailRequest
+	(*GetUserByEmailResponse)(nil),             // 33: advertisements_storage.GetUserByEmailResponse
+	(*GetUserByIDRequest)(nil),                 // 34: advertisements_storage.GetUserByIDRequest
+	(*GetUserByIdResponse)(nil),                // 35: advertisements_storage.GetUserByIdResponse
+	(*UpdateUserByIdRequest)(nil),              // 36: advertisements_storage.UpdateUserByIdRequest
+	(*UpdateUserByIdResponse)(nil),             // 37: advertisements_storage.UpdateUserByIdResponse
+	(*DeleteUserByIdRequest)(nil),              // 38: advertisements_storage.DeleteUserByIdRequest
+	(*DeleteUserByIdResponse)(nil),             // 39: advertisements_storage.DeleteUserByIdResponse
+	(*SearchAdvertisementByTitleRequest)(nil),  // 40: advertisements_storage.SearchAdvertisementByTitleRequest
+	(*SearchAdvertisementByTitleResponse)(nil), // 41: advertisements_storage.SearchAdvertisementByTitleResponse
+	(*timestamppb.Timestamp)(nil),              // 42: google.protobuf.Timestamp
 }
 var file_advertisements_storage_proto_depIdxs = []int32{
-	40, // 0: advertisements_storage.Advertisement.published_at:type_name -> google.protobuf.Timestamp
-	40, // 1: advertisements_storage.CreateAdvertisementRequest.published_at:type_name -> google.protobuf.Timestamp
+	42, // 0: advertisements_storage.Advertisement.published_at:type_name -> google.protobuf.Timestamp
+	42, // 1: advertisements_storage.CreateAdvertisementRequest.published_at:type_name -> google.protobuf.Timestamp
 	1,  // 2: advertisements_storage.CreateAdvertisementResponse.advertisement:type_name -> advertisements_storage.Advertisement
 	1,  // 3: advertisements_storage.GetAdvertisementByIdResponse.advertisement:type_name -> advertisements_storage.Advertisement
 	1,  // 4: advertisements_storage.GetAllAdvertisementsResponse.advertisements:type_name -> advertisements_storage.Advertisement
 	1,  // 5: advertisements_storage.UpdateAdvertisementByIdResponse.advertisement:type_name -> advertisements_storage.Advertisement
-	12, // 6: advertisements_storage.CreateCategoryResponse.category:type_name -> advertisements_storage.Category
-	12, // 7: advertisements_storage.GetCategoryByIdResponse.category:type_name -> advertisements_storage.Category
-	12, // 8: advertisements_storage.GetCategoryByAliasResponse.category:type_name -> advertisements_storage.Category
-	12, // 9: advertisements_storage.GetAllCategoriesResponse.categories:type_name -> advertisements_storage.Category
-	12, // 10: advertisements_storage.UpdateCategoryByIdResponse.category:type_name -> advertisements_storage.Category
-	0,  // 11: advertisements_storage.User.role:type_name -> advertisements_storage.UserRole
-	0,  // 12: advertisements_storage.RegisterUserRequest.role:type_name -> advertisements_storage.UserRole
-	25, // 13: advertisements_storage.RegisterUserResponse.user:type_name -> advertisements_storage.User
-	25, // 14: advertisements_storage.GetAllUsersResponse.users:type_name -> advertisements_storage.User
-	25, // 15: advertisements_storage.GetUserByIdResponse.user:type_name -> advertisements_storage.User
-	25, // 16: advertisements_storage.UpdateUserByIdResponse.user:type_name -> advertisements_storage.User
-	1,  // 17: advertisements_storage.SearchAdvertisementByTitleResponse.advertisement:type_name -> advertisements_storage.Advertisement
-	2,  // 18: advertisements_storage.AdvertisementsStorage.CreateAdvertisement:input_type -> advertisements_storage.CreateAdvertisementRequest
-	4,  // 19: advertisements_storage.AdvertisementsStorage.GetAdvertisementById:input_type -> advertisements_storage.GetAdvertisementByIdRequest
-	6,  // 20: advertisements_storage.AdvertisementsStorage.GetAllAdvertisements:input_type -> advertisements_storage.GetAllAdvertisementsRequest
-	8,  // 21: advertisements_storage.AdvertisementsStorage.UpdateAdvertisementById:input_type -> advertisements_storage.UpdateAdvertisementByIdRequest
-	10, // 22: advertisements_storage.AdvertisementsStorage.DeleteAdvertisementByID:input_type -> advertisements_storage.DeleteAdvertisementByIDRequest
-	13, // 23: advertisements_storage.AdvertisementsStorage.CreateCategory:input_type -> advertisements_storage.CreateCategoryRequest
-	15, // 24: advertisements_storage.AdvertisementsStorage.GetCategoryById:input_type -> advertisements_storage.GetCategoryByIdRequest
-	17, // 25: advertisements_storage.AdvertisementsStorage.GetCategoryByAlias:input_type -> advertisements_storage.GetCategoryByAliasRequest
-	19, // 26: advertisements_storage.AdvertisementsStorage.GetAllCategories:input_type -> advertisements_storage.GetAllCategoriesRequest
-	21, // 27: advertisements_storage.AdvertisementsStorage.UpdateCategoryById:input_type -> advertisements_storage.UpdateCategoryByIdRequest
-	23, // 28: advertisements_storage.AdvertisementsStorage.DeleteCategoryById:input_type -> advertisements_storage.DeleteCategoryByIDRequest
-	26, // 29: advertisements_storage.AdvertisementsStorage.RegisterUser:input_type -> advertisements_storage.RegisterUserRequest
-	28, // 30: advertisements_storage.AdvertisementsStorage.LoginUser:input_type -> advertisements_storage.LoginUserRequest
-	30, // 31: advertisements_storage.AdvertisementsStorage.GetAllUsers:input_type -> advertisements_storage.GetAllUsersRequest
-	32, // 32: advertisements_storage.AdvertisementsStorage.GetUserByID:input_type -> advertisements_storage.GetUserByIDRequest
-	34, // 33: advertisements_storage.AdvertisementsStorage.UpdateUserById:input_type -> advertisements_storage.UpdateUserByIdRequest
-	36, // 34: advertisements_storage.AdvertisementsStorage.DeleteUserById:input_type -> advertisements_storage.DeleteUserByIdRequest
-	38, // 35: advertisements_storage.AdvertisementsStorage.SearchAdvertisementByTitle:input_type -> advertisements_storage.SearchAdvertisementByTitleRequest
-	3,  // 36: advertisements_storage.AdvertisementsStorage.CreateAdvertisement:output_type -> advertisements_storage.CreateAdvertisementResponse
-	5,  // 37: advertisements_storage.AdvertisementsStorage.GetAdvertisementById:output_type -> advertisements_storage.GetAdvertisementByIdResponse
-	7,  // 38: advertisements_storage.AdvertisementsStorage.GetAllAdvertisements:output_type -> advertisements_storage.GetAllAdvertisementsResponse
-	9,  // 39: advertisements_storage.AdvertisementsStorage.UpdateAdvertisementById:output_type -> advertisements_storage.UpdateAdvertisementByIdResponse
-	11, // 40: advertisements_storage.AdvertisementsStorage.DeleteAdvertisementByID:output_type -> advertisements_storage.DeleteAdvertisementByIDResponse
-	14, // 41: advertisements_storage.AdvertisementsStorage.CreateCategory:output_type -> advertisements_storage.CreateCategoryResponse
-	16, // 42: advertisements_storage.AdvertisementsStorage.GetCategoryById:output_type -> advertisements_storage.GetCategoryByIdResponse
-	18, // 43: advertisements_storage.AdvertisementsStorage.GetCategoryByAlias:output_type -> advertisements_storage.GetCategoryByAliasResponse
-	20, // 44: advertisements_storage.AdvertisementsStorage.GetAllCategories:output_type -> advertisements_storage.GetAllCategoriesResponse
-	22, // 45: advertisements_storage.AdvertisementsStorage.UpdateCategoryById:output_type -> advertisements_storage.UpdateCategoryByIdResponse
-	24, // 46: advertisements_storage.AdvertisementsStorage.DeleteCategoryById:output_type -> advertisements_storage.DeleteCategoryByIDResponse
-	27, // 47: advertisements_storage.AdvertisementsStorage.RegisterUser:output_type -> advertisements_storage.RegisterUserResponse
-	29, // 48: advertisements_storage.AdvertisementsStorage.LoginUser:output_type -> advertisements_storage.LoginUserResponse
-	31, // 49: advertisements_storage.AdvertisementsStorage.GetAllUsers:output_type -> advertisements_storage.GetAllUsersResponse
-	33, // 50: advertisements_storage.AdvertisementsStorage.GetUserByID:output_type -> advertisements_storage.GetUserByIdResponse
-	35, // 51: advertisements_storage.AdvertisementsStorage.UpdateUserById:output_type -> advertisements_storage.UpdateUserByIdResponse
-	11, // 52: advertisements_storage.AdvertisementsStorage.DeleteUserById:output_type -> advertisements_storage.DeleteAdvertisementByIDResponse
-	39, // 53: advertisements_storage.AdvertisementsStorage.SearchAdvertisementByTitle:output_type -> advertisements_storage.SearchAdvertisementByTitleResponse
-	36, // [36:54] is the sub-list for method output_type
-	18, // [18:36] is the sub-list for method input_type
-	18, // [18:18] is the sub-list for extension type_name
-	18, // [18:18] is the sub-list for extension extendee
-	0,  // [0:18] is the sub-list for field type_name
+	42, // 6: advertisements_storage.Category.created_at:type_name -> google.protobuf.Timestamp
+	42, // 7: advertisements_storage.Category.updated_at:type_name -> google.protobuf.Timestamp
+	12, // 8: advertisements_storage.GetCategoryByIdResponse.category:type_name -> advertisements_storage.Category
+	12, // 9: advertisements_storage.GetCategoryByAliasResponse.category:type_name -> advertisements_storage.Category
+	12, // 10: advertisements_storage.GetAllCategoriesResponse.categories:type_name -> advertisements_storage.Category
+	12, // 11: advertisements_storage.UpdateCategoryByIdResponse.category:type_name -> advertisements_storage.Category
+	0,  // 12: advertisements_storage.User.role:type_name -> advertisements_storage.UserRole
+	42, // 13: advertisements_storage.User.created_at:type_name -> google.protobuf.Timestamp
+	42, // 14: advertisements_storage.User.updated_at:type_name -> google.protobuf.Timestamp
+	0,  // 15: advertisements_storage.RegisterUserRequest.role:type_name -> advertisements_storage.UserRole
+	25, // 16: advertisements_storage.GetAllUsersResponse.users:type_name -> advertisements_storage.User
+	25, // 17: advertisements_storage.GetUserByEmailResponse.user:type_name -> advertisements_storage.User
+	25, // 18: advertisements_storage.GetUserByIdResponse.user:type_name -> advertisements_storage.User
+	0,  // 19: advertisements_storage.UpdateUserByIdRequest.role:type_name -> advertisements_storage.UserRole
+	25, // 20: advertisements_storage.UpdateUserByIdResponse.user:type_name -> advertisements_storage.User
+	1,  // 21: advertisements_storage.SearchAdvertisementByTitleResponse.advertisement:type_name -> advertisements_storage.Advertisement
+	2,  // 22: advertisements_storage.AdvertisementsStorage.CreateAdvertisement:input_type -> advertisements_storage.CreateAdvertisementRequest
+	4,  // 23: advertisements_storage.AdvertisementsStorage.GetAdvertisementById:input_type -> advertisements_storage.GetAdvertisementByIdRequest
+	6,  // 24: advertisements_storage.AdvertisementsStorage.GetAllAdvertisements:input_type -> advertisements_storage.GetAllAdvertisementsRequest
+	8,  // 25: advertisements_storage.AdvertisementsStorage.UpdateAdvertisementById:input_type -> advertisements_storage.UpdateAdvertisementByIdRequest
+	10, // 26: advertisements_storage.AdvertisementsStorage.DeleteAdvertisementByID:input_type -> advertisements_storage.DeleteAdvertisementByIDRequest
+	13, // 27: advertisements_storage.AdvertisementsStorage.CreateCategory:input_type -> advertisements_storage.CreateCategoryRequest
+	15, // 28: advertisements_storage.AdvertisementsStorage.GetCategoryById:input_type -> advertisements_storage.GetCategoryByIdRequest
+	17, // 29: advertisements_storage.AdvertisementsStorage.GetCategoryByAlias:input_type -> advertisements_storage.GetCategoryByAliasRequest
+	19, // 30: advertisements_storage.AdvertisementsStorage.GetAllCategories:input_type -> advertisements_storage.GetAllCategoriesRequest
+	21, // 31: advertisements_storage.AdvertisementsStorage.UpdateCategoryById:input_type -> advertisements_storage.UpdateCategoryByIdRequest
+	23, // 32: advertisements_storage.AdvertisementsStorage.DeleteCategoryById:input_type -> advertisements_storage.DeleteCategoryByIDRequest
+	26, // 33: advertisements_storage.AdvertisementsStorage.RegisterUser:input_type -> advertisements_storage.RegisterUserRequest
+	28, // 34: advertisements_storage.AdvertisementsStorage.LoginUser:input_type -> advertisements_storage.LoginUserRequest
+	30, // 35: advertisements_storage.AdvertisementsStorage.GetAllUsers:input_type -> advertisements_storage.GetAllUsersRequest
+	34, // 36: advertisements_storage.AdvertisementsStorage.GetUserByID:input_type -> advertisements_storage.GetUserByIDRequest
+	32, // 37: advertisements_storage.AdvertisementsStorage.GetUserByEmail:input_type -> advertisements_storage.GetUserByEmailRequest
+	36, // 38: advertisements_storage.AdvertisementsStorage.UpdateUserById:input_type -> advertisements_storage.UpdateUserByIdRequest
+	38, // 39: advertisements_storage.AdvertisementsStorage.DeleteUserById:input_type -> advertisements_storage.DeleteUserByIdRequest
+	40, // 40: advertisements_storage.AdvertisementsStorage.SearchAdvertisementByTitle:input_type -> advertisements_storage.SearchAdvertisementByTitleRequest
+	3,  // 41: advertisements_storage.AdvertisementsStorage.CreateAdvertisement:output_type -> advertisements_storage.CreateAdvertisementResponse
+	5,  // 42: advertisements_storage.AdvertisementsStorage.GetAdvertisementById:output_type -> advertisements_storage.GetAdvertisementByIdResponse
+	7,  // 43: advertisements_storage.AdvertisementsStorage.GetAllAdvertisements:output_type -> advertisements_storage.GetAllAdvertisementsResponse
+	9,  // 44: advertisements_storage.AdvertisementsStorage.UpdateAdvertisementById:output_type -> advertisements_storage.UpdateAdvertisementByIdResponse
+	11, // 45: advertisements_storage.AdvertisementsStorage.DeleteAdvertisementByID:output_type -> advertisements_storage.DeleteAdvertisementByIDResponse
+	14, // 46: advertisements_storage.AdvertisementsStorage.CreateCategory:output_type -> advertisements_storage.CreateCategoryResponse
+	16, // 47: advertisements_storage.AdvertisementsStorage.GetCategoryById:output_type -> advertisements_storage.GetCategoryByIdResponse
+	18, // 48: advertisements_storage.AdvertisementsStorage.GetCategoryByAlias:output_type -> advertisements_storage.GetCategoryByAliasResponse
+	20, // 49: advertisements_storage.AdvertisementsStorage.GetAllCategories:output_type -> advertisements_storage.GetAllCategoriesResponse
+	22, // 50: advertisements_storage.AdvertisementsStorage.UpdateCategoryById:output_type -> advertisements_storage.UpdateCategoryByIdResponse
+	24, // 51: advertisements_storage.AdvertisementsStorage.DeleteCategoryById:output_type -> advertisements_storage.DeleteCategoryByIDResponse
+	27, // 52: advertisements_storage.AdvertisementsStorage.RegisterUser:output_type -> advertisements_storage.RegisterUserResponse
+	29, // 53: advertisements_storage.AdvertisementsStorage.LoginUser:output_type -> advertisements_storage.LoginUserResponse
+	31, // 54: advertisements_storage.AdvertisementsStorage.GetAllUsers:output_type -> advertisements_storage.GetAllUsersResponse
+	35, // 55: advertisements_storage.AdvertisementsStorage.GetUserByID:output_type -> advertisements_storage.GetUserByIdResponse
+	33, // 56: advertisements_storage.AdvertisementsStorage.GetUserByEmail:output_type -> advertisements_storage.GetUserByEmailResponse
+	37, // 57: advertisements_storage.AdvertisementsStorage.UpdateUserById:output_type -> advertisements_storage.UpdateUserByIdResponse
+	11, // 58: advertisements_storage.AdvertisementsStorage.DeleteUserById:output_type -> advertisements_storage.DeleteAdvertisementByIDResponse
+	41, // 59: advertisements_storage.AdvertisementsStorage.SearchAdvertisementByTitle:output_type -> advertisements_storage.SearchAdvertisementByTitleResponse
+	41, // [41:60] is the sub-list for method output_type
+	22, // [22:41] is the sub-list for method input_type
+	22, // [22:22] is the sub-list for extension type_name
+	22, // [22:22] is the sub-list for extension extendee
+	0,  // [0:22] is the sub-list for field type_name
 }
 
 func init() { file_advertisements_storage_proto_init() }
@@ -2205,13 +2410,14 @@ func file_advertisements_storage_proto_init() {
 	}
 	file_advertisements_storage_proto_msgTypes[24].OneofWrappers = []any{}
 	file_advertisements_storage_proto_msgTypes[25].OneofWrappers = []any{}
+	file_advertisements_storage_proto_msgTypes[35].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_advertisements_storage_proto_rawDesc), len(file_advertisements_storage_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   39,
+			NumMessages:   41,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
