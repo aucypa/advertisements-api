@@ -8,7 +8,6 @@ package avdertisement_storage
 
 import (
 	context "context"
-
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -35,6 +34,7 @@ const (
 	AdvertisementsStorage_LoginUser_FullMethodName                  = "/advertisements_storage.AdvertisementsStorage/LoginUser"
 	AdvertisementsStorage_GetAllUsers_FullMethodName                = "/advertisements_storage.AdvertisementsStorage/GetAllUsers"
 	AdvertisementsStorage_GetUserByID_FullMethodName                = "/advertisements_storage.AdvertisementsStorage/GetUserByID"
+	AdvertisementsStorage_GetUserByEmail_FullMethodName             = "/advertisements_storage.AdvertisementsStorage/GetUserByEmail"
 	AdvertisementsStorage_UpdateUserById_FullMethodName             = "/advertisements_storage.AdvertisementsStorage/UpdateUserById"
 	AdvertisementsStorage_DeleteUserById_FullMethodName             = "/advertisements_storage.AdvertisementsStorage/DeleteUserById"
 	AdvertisementsStorage_SearchAdvertisementByTitle_FullMethodName = "/advertisements_storage.AdvertisementsStorage/SearchAdvertisementByTitle"
@@ -62,6 +62,7 @@ type AdvertisementsStorageClient interface {
 	LoginUser(ctx context.Context, in *LoginUserRequest, opts ...grpc.CallOption) (*LoginUserResponse, error)
 	GetAllUsers(ctx context.Context, in *GetAllUsersRequest, opts ...grpc.CallOption) (*GetAllUsersResponse, error)
 	GetUserByID(ctx context.Context, in *GetUserByIDRequest, opts ...grpc.CallOption) (*GetUserByIdResponse, error)
+	GetUserByEmail(ctx context.Context, in *GetUserByEmailRequest, opts ...grpc.CallOption) (*GetUserByEmailResponse, error)
 	UpdateUserById(ctx context.Context, in *UpdateUserByIdRequest, opts ...grpc.CallOption) (*UpdateUserByIdResponse, error)
 	DeleteUserById(ctx context.Context, in *DeleteUserByIdRequest, opts ...grpc.CallOption) (*DeleteAdvertisementByIDResponse, error)
 	// Search
@@ -226,6 +227,16 @@ func (c *advertisementsStorageClient) GetUserByID(ctx context.Context, in *GetUs
 	return out, nil
 }
 
+func (c *advertisementsStorageClient) GetUserByEmail(ctx context.Context, in *GetUserByEmailRequest, opts ...grpc.CallOption) (*GetUserByEmailResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetUserByEmailResponse)
+	err := c.cc.Invoke(ctx, AdvertisementsStorage_GetUserByEmail_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *advertisementsStorageClient) UpdateUserById(ctx context.Context, in *UpdateUserByIdRequest, opts ...grpc.CallOption) (*UpdateUserByIdResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateUserByIdResponse)
@@ -278,6 +289,7 @@ type AdvertisementsStorageServer interface {
 	LoginUser(context.Context, *LoginUserRequest) (*LoginUserResponse, error)
 	GetAllUsers(context.Context, *GetAllUsersRequest) (*GetAllUsersResponse, error)
 	GetUserByID(context.Context, *GetUserByIDRequest) (*GetUserByIdResponse, error)
+	GetUserByEmail(context.Context, *GetUserByEmailRequest) (*GetUserByEmailResponse, error)
 	UpdateUserById(context.Context, *UpdateUserByIdRequest) (*UpdateUserByIdResponse, error)
 	DeleteUserById(context.Context, *DeleteUserByIdRequest) (*DeleteAdvertisementByIDResponse, error)
 	// Search
@@ -335,6 +347,9 @@ func (UnimplementedAdvertisementsStorageServer) GetAllUsers(context.Context, *Ge
 }
 func (UnimplementedAdvertisementsStorageServer) GetUserByID(context.Context, *GetUserByIDRequest) (*GetUserByIdResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetUserByID not implemented")
+}
+func (UnimplementedAdvertisementsStorageServer) GetUserByEmail(context.Context, *GetUserByEmailRequest) (*GetUserByEmailResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetUserByEmail not implemented")
 }
 func (UnimplementedAdvertisementsStorageServer) UpdateUserById(context.Context, *UpdateUserByIdRequest) (*UpdateUserByIdResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method UpdateUserById not implemented")
@@ -635,6 +650,24 @@ func _AdvertisementsStorage_GetUserByID_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AdvertisementsStorage_GetUserByEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserByEmailRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdvertisementsStorageServer).GetUserByEmail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdvertisementsStorage_GetUserByEmail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdvertisementsStorageServer).GetUserByEmail(ctx, req.(*GetUserByEmailRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _AdvertisementsStorage_UpdateUserById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateUserByIdRequest)
 	if err := dec(in); err != nil {
@@ -755,6 +788,10 @@ var AdvertisementsStorage_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUserByID",
 			Handler:    _AdvertisementsStorage_GetUserByID_Handler,
+		},
+		{
+			MethodName: "GetUserByEmail",
+			Handler:    _AdvertisementsStorage_GetUserByEmail_Handler,
 		},
 		{
 			MethodName: "UpdateUserById",

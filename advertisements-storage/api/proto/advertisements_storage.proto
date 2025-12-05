@@ -27,7 +27,8 @@ service AdvertisementsStorage {
     rpc RegisterUser(RegisterUserRequest) returns (RegisterUserResponse);
     rpc LoginUser(LoginUserRequest) returns (LoginUserResponse);
     rpc GetAllUsers(GetAllUsersRequest) returns (GetAllUsersResponse);
-    rpc GetUserByID(GetUserByIDRequest) returns (GetUserByIdResponse); 
+    rpc GetUserByID(GetUserByIDRequest) returns (GetUserByIdResponse);
+    rpc GetUserByEmail(GetUserByEmailRequest) returns (GetUserByEmailResponse); 
     rpc UpdateUserById (UpdateUserByIdRequest) returns (UpdateUserByIdResponse);
     rpc DeleteUserById (DeleteUserByIdRequest) returns (DeleteAdvertisementByIDResponse);
 
@@ -43,9 +44,10 @@ message Advertisement {
     string description = 3;
     double price = 4;
     string currency = 5;
-    google.protobuf.Timestamp published_at = 6;
-    int64 category_id = 7;
-    int64 user_id = 8;
+    int64 category_id = 6;
+    int64 user_id = 7;
+    google.protobuf.Timestamp created_at = 8;
+    google.protobuf.Timestamp updated_at = 9;
 }
 
 message CreateAdvertisementRequest {
@@ -53,13 +55,12 @@ message CreateAdvertisementRequest {
     string description = 2;
     double price = 3;
     string currency = 4;
-    google.protobuf.Timestamp published_at = 5;
-    int64 category_id = 6;
-    int64 user_id = 7;
+    int64 category_id = 5;
+    int64 user_id = 6;
 }
 
 message CreateAdvertisementResponse {
-    Advertisement advertisement = 1;
+   int64 id = 1;
 }
 
 message GetAdvertisementByIdRequest{
@@ -78,6 +79,11 @@ message GetAllAdvertisementsResponse{
 
 message UpdateAdvertisementByIdRequest{
     int64 id = 1;
+    string title = 2;
+    string description = 3;
+    double price = 4;
+    string currency = 5;
+    int64 category_id = 6;
 }
 
 message UpdateAdvertisementByIdResponse{
@@ -96,6 +102,8 @@ message Category{
     int64 id = 1;
     string name = 2;
     string alias = 3;
+    google.protobuf.Timestamp created_at = 4;
+    google.protobuf.Timestamp updated_at = 5;
 }
 
 message CreateCategoryRequest {
@@ -104,7 +112,7 @@ message CreateCategoryRequest {
 }
 
 message CreateCategoryResponse {
-    Category category = 1;
+   int64 id = 1;
 }
 
 message GetCategoryByIdRequest{
@@ -131,6 +139,8 @@ message GetAllCategoriesResponse{
 
 message UpdateCategoryByIdRequest{
     int64 id = 1;
+    string name = 2;
+    string alias = 3;
 }
 
 message UpdateCategoryByIdResponse{
@@ -157,6 +167,8 @@ message User {
     string first_name = 4;
     string last_name = 5;
     optional UserRole role = 6;
+    google.protobuf.Timestamp created_at = 7;
+    google.protobuf.Timestamp updated_at = 8;
 }
 
 message RegisterUserRequest {
@@ -168,7 +180,7 @@ message RegisterUserRequest {
 }
 
 message RegisterUserResponse {
-    User user = 1;
+    int64 id = 1;
 }
 
 message LoginUserRequest{
@@ -186,6 +198,14 @@ message GetAllUsersResponse{
     repeated User users = 1;
 }
 
+message GetUserByEmailRequest {
+    string email = 1;
+}
+
+message GetUserByEmailResponse {
+    User user = 1;
+}
+
 message GetUserByIDRequest{
     int64 id = 1;
 }
@@ -196,6 +216,11 @@ message GetUserByIdResponse {
 
 message UpdateUserByIdRequest{
     int64 id = 1;
+    string email = 2;
+    string password_hash = 3;
+    string first_name = 4;
+    string last_name = 5;
+    optional UserRole role = 6;
 }
 
 message UpdateUserByIdResponse{
