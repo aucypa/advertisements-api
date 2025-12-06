@@ -45,5 +45,13 @@ services:
       - STORAGE_ADDR=advertisements-storage:8000
     depends_on:
       - advertisements-storage
+  users-service: 
+    build: ./users-service
+    ports:
+      - "8003:8003"
+    environment:
+      - STORAGE_ADDR=advertisements-storage:8000
+    depends_on:
+      - advertisements-storage
 volumes:
   pg_data:
