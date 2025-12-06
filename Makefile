@@ -41,17 +41,17 @@ proto-search:
 
 
 proto-user:
-	@echo "Generating for user-service..."
-	mkdir -p user-service/pkg/pb
+	@echo "Generating for users-service..."
+	mkdir -p users-service/pkg/pb
 	protoc -I api/proto \
-		--go_out=user-service/pkg/pb \
+		--go_out=users-service/pkg/pb \
 		--go_opt=paths=source_relative \
-		--go_opt=Madvertisements_storage.proto=user-service/pkg/pb \
-		--go-grpc_out=user-service/pkg/pb \
+		--go_opt=Madvertisements_storage.proto=users-service/pkg/pb \
+		--go-grpc_out=users-service/pkg/pb \
 		--go-grpc_opt=paths=source_relative \
-		--go-grpc_opt=Madvertisements_storage.proto=user-service/pkg/pb \
+		--go-grpc_opt=Madvertisements_storage.proto=users-service/pkg/pb \
 		api/proto/advertisements_storage.proto
-	@echo "✅ Generated in user-service/pkg/pb/"
+	@echo "✅ Generated in users-service/pkg/pb/"
 
 
 proto-all: proto-storage proto-search proto-category proto-user
