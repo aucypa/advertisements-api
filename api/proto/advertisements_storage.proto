@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package advertisements_storage;
 
-option go_package = "./pkg/pb;avdertisement_storage";
 
 import "google/protobuf/timestamp.proto";
 

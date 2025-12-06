@@ -1,8 +1,9 @@
 package main
 
 import (
-	"advertisement-storage/cmd/app"
 	"log"
+
+	"advertisement-storage/cmd/app"
 )
 
 func main() {
