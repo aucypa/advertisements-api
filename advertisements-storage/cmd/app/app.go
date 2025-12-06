@@ -24,6 +24,7 @@ import (
 func Init() error {
 	db, err := db.NewDatabase()
 	if err != nil {
+		log.Fatalf("Failed connect to db: %s", err)
 		return err
 	}
 	defer db.Close()
@@ -56,6 +57,7 @@ func Init() error {
 
 	lis, err := net.Listen("tcp", ":8000")
 	if err != nil {
+		log.Fatalf("Failed listen 8000 port: %s", err)
 		return err
 	}
 
