@@ -3,13 +3,14 @@ FROM gradle:8.5-jdk21-alpine AS builder
 WORKDIR /app
 
 # Copy dependencies for boost start
-COPY build.gradle settings.gradle ./
-COPY gradle ./gradle
+COPY build.gradle settings.gradle gradle/ ./
+
 RUN gradle dependencies --no-daemon || true
 
-# Copy all project and build it
-COPY . .
-RUN gradle bootJar --no-daemon
+COPY src ./src
+COPY build/generated ./build/generated
+
+RUN gradle bootJar --no-daemon -x generateProto
 
 # ---------- Stage 2: Run ----------
 FROM eclipse-temurin:21-jre-alpine

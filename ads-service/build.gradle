@@ -79,3 +79,7 @@ tasks.named('compileJava') {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+if (System.getenv("CI") == "docker") {
+	tasks.named("generateProto") { enabled = false }
+}
