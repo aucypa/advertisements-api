@@ -16,17 +16,12 @@ public class StorageClientConfig {
 
     @Bean
     public ManagedChannel grpcChannel() {
-        return ManagedChannelBuilder
-                .forTarget(storageAddr)
-                .usePlaintext()
-                .build();
+        return ManagedChannelBuilder.forTarget(storageAddr).usePlaintext().build();
     }
 
     @Bean
     public StorageClient storageClient(ManagedChannel channel) {
-        return new StorageClient(
-                AdvertisementsStorageGrpc.newBlockingStub(channel).toString()
-        );
+        return new StorageClient(AdvertisementsStorageGrpc.newBlockingStub(channel).toString());
     }
 }
 
