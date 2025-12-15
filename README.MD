@@ -57,6 +57,17 @@ docker compose ps
 docker compose logs -f
 ```
 
+### Генерация Go pb файлов из proto через make
+
+```
+make proto-storage
+make proto-category
+make proto-search
+make proto-user
+make proto-gateway
+make proto-all
+```
+
 ### Команда проекта
 
 ```
