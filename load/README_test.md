@@ -45,7 +45,7 @@ docker run "${COMMON_ARGS[@]}" grafana/k6 run /scripts/search-scenarios.js
 
 Предусловие: поднять докер 
 ```bash 
-docker compose -f docker-compose.k6.yml up -d
+docker compose -f docker-compose.yml up -d
 ```
 
 1. Перейти в каталог с `run-load-tests.sh`.  
