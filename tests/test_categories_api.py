@@ -10,7 +10,7 @@ import json
 
 
 class TestCategoriesAPI:
-    BASE_URL = "http://localhost:8004/api"  # подправь при необходимости
+    BASE_URL = "http://localhost:8004/api"  
 
     def setup_method(self):
         self.created_category_ids = []

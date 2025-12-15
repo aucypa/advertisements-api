@@ -19,7 +19,7 @@ COMMON_ARGS=(
   --rm -i
   --network=host
   -e K6_OUT=influxdb=http://localhost:8086/k6
-  -v "$PWD/load:/scripts"
+  -v "$PWD/tests:/scripts"
 )
 ```
 
