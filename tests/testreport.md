@@ -14,23 +14,23 @@
 
 #### Проверяемые сервисы:
 
-- ads-service – 8005
+- ads-service 
 
-- advertisements-storage – 8000
+- advertisements-storage 
 
-- api-gateway – 8004
+- api-gateway 
 
-- category-service – 8001
+- category-service 
 
-- search-service – 8002
+- search-service 
 
-- users-service – 8003
+- users-service 
 
-- grafana – 3000
+- grafana
 
-- influxdb – 8086
+- influxdb
 
-- postgres – 5432
+- postgres 
 
 ### 2. Users Service
 | Тест / Эндпоинт | Описание | Ожидаемый результат | Фактический результат |
