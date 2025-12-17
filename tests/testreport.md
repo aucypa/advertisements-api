@@ -52,14 +52,14 @@
 | DeleteAdvertisementByID (DELETE /ads/{id}) | Удаление объявления                                           | Объявление удалено                        |
 
 ### 4. Categories Service
-| Тест / Эндпоинт                        | Описание                                   | Ожидаемый результат                |
-|----------------------------------------|-------------------------------------------|-----------------------------------|
-| CreateCategory (POST /categories)      | Создание категории с `name` и `alias`     | Возвращается `id` категории       |
-| GetCategoryById (GET /categories/{id}) | Получение категории по ID                  | Информация о категории             |
-| GetCategoryByAlias (GET /categories/alias/{alias}) | Получение категории по алиасу | Информация о категории             |
-| GetAllCategories (GET /categories)     | Получение всех категорий                   | Список категорий                   |
-| UpdateCategoryById (PUT /categories/{id}) | Обновление категории                       | Категория обновлена                |
-| DeleteCategoryById (DELETE /categories/{id}) | Удаление категории                        | Категория удалена                  |
+| Тест / Эндпоинт | Описание | Ожидаемый результат | Фактический результат |
+|-----------------|----------|---------------------|-----------------------|
+| CreateCategory (POST /categories) | Создание категории с полями `name` и `alias` | Возвращается `id` новой категории | При успешном выполнении возвращается `id`, полученный от `storageClient.CreateCategory`. Валидация входных данных на уровне сервиса отсутствует. |
+| GetCategoryById (GET /categories/{id}) | Получение категории по ID | Информация о категории | Возвращается категория, полученная от `storageClient.GetCategoryById`. При отсутствии категории возвращается ошибка storage-слоя. |
+| GetCategoryByAlias (GET /categories/alias/{alias}) | Получение категории по алиасу | Информация о категории | Возвращается категория, полученная от `storageClient.GetCategoryByAlias`. Дополнительная обработка результата отсутствует. |
+| GetAllCategories (GET /categories) | Получение списка всех категорий | Список категорий | Возвращается список категорий, полученный от `storageClient.GetAllCategories`. Фильтрация и пагинация не реализованы. |
+| UpdateCategoryById (PUT /categories/{id}) | Обновление категории | Категория обновлена | Обновление выполняется через `storageClient.UpdateCategory`. Все поля (`name`, `alias`) передаются напрямую без проверки. |
+| DeleteCategoryById (DELETE /categories/{id}) | Удаление категории | Категория удалена | Удаление выполняется через `storageClient.DeleteCategory`. Ответ полностью формируется storage-слоем и возвращается без изменений. |
 
 ### 5. Search Service
 
